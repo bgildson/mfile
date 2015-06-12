@@ -4,7 +4,7 @@ class MFile:
 
     def __init__(self, path):
         import shutil
-        if not os.path.exists(path) or not os.path.isfile(path):
+        if not shutil.os.path.exists(path) or not shutil.os.path.isfile(path):
             raise Exception('File not exist!')
         self._path = path
         self._s = shutil
@@ -33,6 +33,12 @@ class MFile:
     def extension(self):
         return self.path.split('.')[-1]
 
+    @extension.setter
+    def extension(self, value):
+        new_path = self._s.os.path.join(self.directory, self.name + '.' + value)
+        self._s.os.rename(self._path, new_path)
+        self._path = new_path
+
     @property
     def full_name(self):
         return self._path.split(self._s.os.path.sep)[-1]
@@ -60,10 +66,10 @@ class MFile:
 
     def copy(self, destine, select_copied=False):
         self._s.copy(self._path, destine)
-        if select_copied: self._path = destine
+        if select_copied: self._path = self._s.os.path.join(destine, self.full_name)
 
     def move(self, destine):
-        self.path = destine
+        self.directory = destine
 
     def open(self):
         self._s.os.startfile(self._path)
