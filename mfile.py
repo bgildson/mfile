@@ -9,7 +9,6 @@ class MFile:
         self._path = path
         self._s = shutil
 
-
     def __repr__(self):
         return "<File: '%s'>" % self.path
 
@@ -21,9 +20,7 @@ class MFile:
     def directory(self, value):
         if not self._s.os.path.exists(value):
             raise Exception('Destination directory does not exist!')
-        d = self._s.os.path.join(value, self.full_name)
-        self._s.move(self._path, d)
-        self._path = d
+        self.path = self._s.os.path.join(value, self.full_name)
 
     @property
     def exists(self):
