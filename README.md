@@ -5,7 +5,14 @@ Class used to easily manage one file using one python object.
 
 Install
 ======
-zzz
+
+```sh
+$ git clone https://github.com/gildson/mfile.git
+$ cd mfile
+$ python setup.py install
+...
+Finished processing dependencies for MFile==0.1
+```
 
 Using MFile
 ======
@@ -19,11 +26,10 @@ This file structure will be used to the demonstrations
     └── doc.txt
 ```
 
-Steps
-======
-**Creates one object of MFile passing the file path by parameter**
+**Importing and creating one object of MFile passing the file path by parameter**
 ```py
->>> file = MFile(r'U:\doc.txt')
+>>> from mfile import MFile
+>>> file = MFile('U:\\doc.txt')
 ```
 
 **This time the object have the following attributes**
@@ -40,6 +46,15 @@ Steps
 'U:\\doc.txt'
 >>> file.exists
 True
+>>> # returns a datetime object with the datetime of creation
+>>> file.date_creation
+datetime.datetime(2015, 6, 14, 19, 42, 18, 950604)
+>>> # returns a datetime object with the datetime of last modification
+>>> file.date_modification
+datetime.datetime(2015, 6, 14, 19, 42, 53, 255959)
+>>> # returns a value numeric with the size of the file in bytes
+>>> file.size
+19456
 ```
 
 **... and the following methods**
@@ -47,7 +62,7 @@ True
 **.move(detine_path)**
 ```py
 >>> # moves the file to directory passed by parameter
->>> file.move(r'U:\folder_a')
+>>> file.move('U:\\folder_a')
 >>> # verify, the selected file is the same that the moved file
 >>> file.path
 'U:\\folder_a\\doc.txt'
@@ -63,7 +78,7 @@ True
 **.copy(destine_path, select_copied=False)**
 ```py
 >>> # copies the file to directory passed by parameter
->>> file.copy(r'U:\folder_b')
+>>> file.copy('U:\\folder_b')
 >>> # verify, the path is the same that before. The file just was copied and the selected file is the origin file.
 >>> file.path
 'U:\\folder_a\\doc.txt'
@@ -80,7 +95,7 @@ True
 **.copy(destine_path, select_copied=False)**
 ```py
 >>> # copies the file to directory passed by parameter and select the destination file
->>> file.copy(r'U:\', True)
+>>> file.copy('U:\\', True)
 >>> # verify, the file was copied and the path was changed to same destination file path
 >>> file.path
 'U:\\doc.txt'
@@ -131,8 +146,8 @@ True
 >>> file.path
 'U:\\module.py'
 
->>> file.directory = r'U:\folder_a'
->>> # the same that: file.move(r'U:\folder_a')
+>>> file.directory = 'U:\\folder_a'
+>>> # the same that: file.move('U:\\folder_a')
 >>> file.path
 'U:\\folder_a\\module.py'
 ```
@@ -146,9 +161,9 @@ True
     │   └── doc.txt
 ```
 Careful when handling .path (.path can change directory, name and extension)
-```
+```py
 >>> # changing the path
->>> file.path = r'U:\module.py'
+>>> file.path = 'U:\\module.py'
 >>> # check above, was necessary to know the name and the extension of the file to change just the directory
 >>> file.path
 'U:\\module.py'
@@ -158,7 +173,7 @@ Is indicated use .path just when is necessary change more than 1 property
 **All operations overwrite the destination file, if any.**
 ```py
 >>> # set the name and path of the file
->>> file.path = r'U:\doc.txt'
+>>> file.path = 'U:\\doc.txt'
 ```
 ```
     Current structure of the files
@@ -171,7 +186,7 @@ Is indicated use .path just when is necessary change more than 1 property
 ```
 ```py
 >>> # overwrite the destination file
->>> file.directory = r'U:\folder_a'
+>>> file.directory = 'U:\\folder_a'
 >>> file.path
 'U:\\folder_a\\doc.txt'
 ```
@@ -180,6 +195,18 @@ Is indicated use .path just when is necessary change more than 1 property
     U:\
     ├── folder_a\
     │   └── doc.txt
+    ├── folder_b\
+    │   └── doc.txt
+```
+
+**Remove the file from disk**
+```py
+>>> file.remove()
+```
+```
+    Current structure of the files
+    U:\
+    ├── folder_a\
     ├── folder_b\
     │   └── doc.txt
 ```
